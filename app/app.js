@@ -457,8 +457,23 @@ function itemChecked(element, listIndex, itemIndex) {
   CATEGORIES[listIndex].listItems[itemIndex].checked = checkedValue;
 }
 
+function addItem(listIndex) {
+  let newItemName = $("#addItem").val();
+  let newItemObj = {
+    name: newItemName,
+    checked: false,
+  };
+  CATEGORIES[listIndex].listItems.push(newItemObj);
+  loadListItems(listIndex);
+}
+
+function deleteItem(listIndex, idx) {
+  CATEGORIES[listIndex].listItems.splice(idx, 1);
+  loadListItems(listIndex);
+}
+
 function loadListItems(listIndex) {
-  let listString = `<button onclick="loadLists()">Go Back</button><ul>`;
+  let listString = `<button onclick="loadMainLists()">Go Back</button><ul>`;
   $.each(CATEGORIES[listIndex].listItems, function (idx, listItem) {
     listString += `<li id="${idx}" class=${
       listItem.checked ? "strike" : ""
@@ -466,9 +481,14 @@ function loadListItems(listIndex) {
       listItem.checked ? (checked = "checked") : ""
     } type="checkbox" id="${idx}" name="${
       listItem.name
-    }" onclick="itemChecked(this, ${listIndex}, ${idx})">${listItem.name}</li>`;
+    }" onclick="itemChecked(this, ${listIndex}, ${idx})">${listItem.name}</span>
+  <span class="delete" onclick="deleteItem(${listIndex}, ${idx})">Delete</span></li>`;
   });
-  listString += "</ul>";
+  listString += `</ul>
+ <div class="addItemInput">
+ <input id="addItem" type="text">
+ <button onclick="addItem(${listIndex})" class="add">Add Item</button>
+ </div>`;
   $("#app").html(listString);
 }
 
@@ -476,10 +496,11 @@ function loadListItems(listIndex) {
  * It takes the CATEGORIES array and creates a string of HTML that is then inserted into the #app
  * element.
  */
-function loadLists() {
-  let listString = "<ul>";
+function loadMainLists() {
+  let listString = "<h1>List Manager 2.0</h1><ul>";
   $.each(CATEGORIES, function (idx, mainList) {
-    listString += `<li id="${idx}" onclick="loadListItems(${idx})">${mainList.name}</li>`;
+    listString += `<li id="${idx}" onclick="loadListItems(${idx})">${mainList.name}
+    <span class="right">Items: ${mainList.listItems.length}</span></li>`;
   });
   listString += "</ul>";
   $("#app").html(listString);
@@ -492,5 +513,5 @@ function initListeners() {}
 
 $(document).ready(function () {
   initListeners();
-  loadLists();
+  loadMainLists();
 });

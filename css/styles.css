@@ -20,12 +20,11 @@ p {
 }
 
 #app {
-  width: 100%;
   margin: 100px;
 }
 
 ul {
-  max-width: 1280px;
+  width: 100%;
 }
 
 li {
@@ -36,17 +35,57 @@ li {
   display: flex;
   align-items: center;
   padding-left: 12px;
+  position: relative;
 }
 li input {
   margin: 0 12px;
 }
+li .delete {
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  background-color: rgb(200, 24, 24);
+  width: 120px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
 
 li.strike {
   text-decoration: line-through;
+  text-decoration-color: red;
+  text-decoration-thickness: 3px;
 }
 
 li:nth-child(even) {
   background-color: #78c0e0;
+}
+
+.right {
+  position: absolute;
+  right: 12px;
+  font-weight: bold;
+}
+
+.addItemInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.addItemInput input {
+  width: 200px;
+  height: 40px;
+  padding-left: 12px;
+}
+.addItemInput button.add {
+  width: 120px;
+  height: 40px;
+  background-color: #44d154;
+  border: none;
+  margin-left: 36px;
 }
 
 /*# sourceMappingURL=styles.css.map */

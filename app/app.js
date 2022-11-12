@@ -360,7 +360,7 @@ var CATEGORIES = [
     ],
   },
   {
-    name: "Genres",
+    name: "Music Genres",
     listItems: [
       {
         name: "Metal",
@@ -451,6 +451,13 @@ var CATEGORIES = [
   },
 ];
 
+/**
+ * It toggles the class "strike" on the parent element of the element that was clicked, and then it
+ * sets the checked value of the item to the opposite of what it was before.
+ * @param element - the element that was clicked
+ * @param listIndex - The index of the list in the CATEGORIES array.
+ * @param itemIndex - The index of the item in the list
+ */
 function itemChecked(element, listIndex, itemIndex) {
   $(element).parent().toggleClass("strike");
   let checkedValue = !CATEGORIES[listIndex].listItems[itemIndex].checked;
@@ -473,7 +480,8 @@ function deleteItem(listIndex, idx) {
 }
 
 function loadListItems(listIndex) {
-  let listString = `<button onclick="loadMainLists()">Go Back</button><ul>`;
+  let listString = ` <h1>List Manager</h1>
+<ul>`;
   $.each(CATEGORIES[listIndex].listItems, function (idx, listItem) {
     listString += `<li id="${idx}" class=${
       listItem.checked ? "strike" : ""
@@ -482,13 +490,17 @@ function loadListItems(listIndex) {
     } type="checkbox" id="${idx}" name="${
       listItem.name
     }" onclick="itemChecked(this, ${listIndex}, ${idx})">${listItem.name}</span>
-  <span class="delete" onclick="deleteItem(${listIndex}, ${idx})">Delete</span></li>`;
+  <span class="delete" onclick="deleteItem(${listIndex}, ${idx})"><i class="fa-regular fa-trash-can"></i></span></li>`;
   });
   listString += `</ul>
  <div class="addItemInput">
- <input id="addItem" type="text">
- <button onclick="addItem(${listIndex})" class="add">Add Item</button>
- </div>`;
+    <div class="add-input">
+        <input id="addItem" type="text">
+        <button onclick="addItem(${listIndex})" class="add">Add Item</button>
+        <button onclick="loadMainLists()" class="back-btn">Go Back</button>
+    </div>
+ </div>
+ `;
   $("#app").html(listString);
 }
 
@@ -497,8 +509,8 @@ function loadListItems(listIndex) {
  * element.
  */
 function loadMainLists() {
-  let listString = "<h1>List Manager 2.0</h1><ul>";
-  $.each(CATEGORIES, function (idx, mainList) {
+  let listString = "<h1>List Manager</h1><ul>";
+  $.each(CATEGORIES, function (idx, mainList, listItem) {
     listString += `<li id="${idx}" onclick="loadListItems(${idx})">${mainList.name}
     <span class="right">Items: ${mainList.listItems.length}</span></li>`;
   });
